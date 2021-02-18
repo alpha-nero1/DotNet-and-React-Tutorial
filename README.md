@@ -6,3 +6,5 @@ TryCatchLearn resources for the reactivities project: https://github.com/TryCatc
 
 `dotnet -h` to see available commands.
 `dotnet watch run` run a project that is watched.
+`dotnet tool install --global dotnet-ef --version 5.0.3` globally installed ef.
+`dotnet ef migrations add Initial -p Persistence -s API`
