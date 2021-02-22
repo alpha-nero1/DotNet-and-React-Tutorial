@@ -28,6 +28,14 @@ namespace API
     {
 
       services.AddControllers();
+      // Allow CORS to client application from server.
+      services.AddCors(opt =>
+      {
+        opt.AddPolicy("CorsPolicy", policy =>
+        {
+          policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+        });
+      });
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -51,6 +59,9 @@ namespace API
       app.UseHttpsRedirection();
 
       app.UseRouting();
+
+      // Orderinf important!
+      app.UseCors("CorsPolicy");
 
       app.UseAuthorization();
 
