@@ -20,11 +20,9 @@ function App() {
     <div>
       <Header as='h2' icon="users" content="Reactivities" />
       <List>
-        <List.Item>
           {activities.map((at: any) => (
-            <li key={at.id}>{ at.title }</li>
+            <List.Item key={at.id}>{ at.title }</List.Item>
           ))}
-        </List.Item>
       </List>
     </div>
   );

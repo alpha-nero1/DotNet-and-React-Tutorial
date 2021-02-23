@@ -19,5 +19,13 @@ https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopl
 - Axios can make http requests for react
 https://github.com/axios/axios
 
+CQRS + Mediator
+Command and Query Responsibility Segregation
+https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs
+
+Mediator: Handles accepting a request and returning a response.
+
+- Tutotial 41 if cancellation token becomes relevant.
+
 Total Tutorials: 288
-Up to: 28
+Up to: 37 (13% done!)
