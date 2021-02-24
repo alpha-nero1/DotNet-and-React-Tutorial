@@ -11,6 +11,8 @@ TryCatchLearn resources for the reactivities project: https://github.com/TryCatc
 
 ## React
 - `npx create-react-app client-app --use-npm --template typescript`
+- We can use <Fragment> or <> to contain react JSX, these do not translate to divs in markup.
+
 
 ## Layers
 persistence: Data access layer.
@@ -38,6 +40,6 @@ Wow so cool: http://json2ts.com/
 - Also you can use generics on JS functions, never realised.
 
 Total Tutorials: 288
-Up to: 48 (16.6% done!)
+Up to: 58 (20%!)
 
 23-02 - 16 to 48 (32)
