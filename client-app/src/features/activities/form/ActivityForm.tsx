@@ -4,6 +4,7 @@ import { Activity } from '../../../types/activity';
 
 interface Props {
   activity: Activity | undefined;
+  isSubmitting: boolean;
   closeForm: () => void;
   handleActivityMutation: (activity: Activity) => void;
 }
@@ -53,6 +54,7 @@ export default function ActivityForm(props: Props) {
           value={activity.date}
           onChange={handleInputChange}
           name='date'
+          type='date'
         />
         <Form.Input 
           placeholder='City'
@@ -71,6 +73,7 @@ export default function ActivityForm(props: Props) {
           positive 
           type='submit' 
           content='Submit'
+          loading={props.isSubmitting}
         ></Button>
         <Button 
           floated='right' 

@@ -10,6 +10,9 @@ export class Activity {
   constructor(opts?: Partial<Activity>) {
     if (opts) {
       Object.assign(this, opts);
+      if (opts.date) {
+        this.date = opts.date.split('T')[0];
+      }
     }
   }
 }

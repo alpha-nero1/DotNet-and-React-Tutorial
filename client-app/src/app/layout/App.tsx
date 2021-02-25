@@ -1,16 +1,19 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 import { Activity } from '../../types/activity';
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import { v4 as uuid } from 'uuid';
+import agent from '../api/agent';
+import LoadingCircle from './LoadingCircle';
 
 function App() {
 
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   function handleSelectActivity(id: string): void {
     setSelectedActivity(activities.find(at => at.id === id));
@@ -30,30 +33,52 @@ function App() {
   }
 
   function handleActivityMutation(activity: Activity): void {
+    setIsSubmitting(true);
     if (activity.id) {
-      setActivities([...activities.filter(at => at.id !== activity.id), activity])
+      agent.Activities.update(activity)
+      .then(res => {
+        setActivities([...activities.filter(at => at.id !== activity.id), activity])
+        setIsEditing(false);
+        setSelectedActivity(activity);
+        setIsSubmitting(false);
+      });
     } else {
-      const newActivity = new Activity({
-        ...activity,
-        id: uuid()
-      })
-      setActivities([...activities, newActivity]);
+      activity.id = uuid();
+      agent.Activities.create(activity)
+      .then(() => {
+        const newActivity = new Activity({
+          ...activity
+        })
+        setActivities([...activities, newActivity]);
+        setIsEditing(false);
+        setSelectedActivity(activity);
+        setIsSubmitting(false);
+      });
     }
-    setIsEditing(false);
-    setSelectedActivity(activity);
+    
   }
 
   function handleDeleteActivity(id: string) {
-    setActivities([...activities.filter(at => at.id !== id)]);
+    setIsSubmitting(true);
+    agent.Activities.delete(id)
+    .then(res => {
+      setActivities([...activities.filter(at => at.id !== id)]);
+      setIsSubmitting(false);
+    });
   }
 
   useEffect(() => {
-    axios.get<Activity[]>('http://localhost:5000/api/activities')
-    .then(({ data }) => {
-      setActivities(data);
+    agent.Activities.list()
+    .then((data) => {
+      setActivities(data.map(at => new Activity(at)));
+      setIsLoading(false);
     })
     // Empty array ensures we only run this one time to avoid infinite loop.
   }, []);
+
+  if (isLoading) {
+    return <LoadingCircle />
+  }
 
   return (
     <>
@@ -69,6 +94,7 @@ function App() {
           closeForm={handleFormClose}
           handleActivityMutation={handleActivityMutation}
           deleteActivity={handleDeleteActivity}
+          isSubmitting={isSubmitting}
         />
       </Container>
     </>

@@ -40,6 +40,6 @@ Wow so cool: http://json2ts.com/
 - Also you can use generics on JS functions, never realised.
 
 Total Tutorials: 288
-Up to: 58 (20%!)
+Up to: 67 (23%)
 
 23-02 - 16 to 48 (32)
