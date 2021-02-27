@@ -1,27 +1,23 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { Activity } from '../../../types/activity';
 import { Segment, Item, Button, Label } from 'semantic-ui-react';
+import { useStore } from '../../../app/stores/store';
+import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom';
 
-interface Props {
-  activities: Activity[]
-  selectActivity: (id: string) => void;
-  deleteActivity: (id: string) => void;
-  isSubmitting: boolean;
-}
-
-export default function ActivityList(props : Props) {
+export default observer(function ActivityList() {
 
   const [target, setTarget] = useState('');
+  const { activityStore } = useStore();
 
   function handleDelete(event: SyntheticEvent<HTMLButtonElement>, id: string) {
     setTarget(event.currentTarget.name);
-    props.deleteActivity(id);
+    activityStore.deleteActivity(id);
   }
 
   return (
     <Segment>
       <Item.Group divided>
-        {props.activities.map(at => (
+        {activityStore.activitiesByDate.map(at => (
           <Item key={at.id}>
             <Item.Content>
               <Item.Header as='a'>
@@ -36,7 +32,8 @@ export default function ActivityList(props : Props) {
               </Item.Description>
               <Item.Extra>
                 <Button
-                  onClick={() => props.selectActivity(at.id)}
+                  as={Link}
+                  to={`/activities/${at.id}`}
                   floated='right' 
                   content='View'
                   color='blue'
@@ -47,7 +44,7 @@ export default function ActivityList(props : Props) {
                   floated='right'
                   content='Delete'
                   color='red'
-                  loading={props.isSubmitting && target === at.id}
+                  loading={activityStore.isSubmitting && target === at.id}
                 />
                 <Label basic content={at.category}/>
               </Item.Extra>
@@ -57,4 +54,4 @@ export default function ActivityList(props : Props) {
       </Item.Group>
     </Segment>
   );
-}
+});

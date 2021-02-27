@@ -1,21 +1,45 @@
-import React, { ChangeEvent, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { Segment, Form, Button } from 'semantic-ui-react';
+import LoadingCircle from '../../../app/layout/LoadingCircle';
+import { useStore } from '../../../app/stores/store';
 import { Activity } from '../../../types/activity';
+import { v4 as uuid } from 'uuid';
 
-interface Props {
-  activity: Activity | undefined;
-  isSubmitting: boolean;
-  closeForm: () => void;
-  handleActivityMutation: (activity: Activity) => void;
-}
+export default observer(function ActivityForm() {
+  const history = useHistory();
+  const { activityStore } = useStore();
+  const { id } = useParams<{id: string}>();
+  const [activity, setActivity] = useState<Activity>(new Activity());
 
-export default function ActivityForm(props: Props) {
-
-  const initialState = props.activity ?? new Activity()
-  const [activity, setActivity] = useState<Activity>(initialState);
+  useEffect(() => {
+    if (id) {
+      activityStore.loadActivity(id)
+      .then((at) => {
+        if (at) {
+          setActivity(at!);
+        }
+      });
+    }
+  }, [id, activityStore])
 
   function handleSubmit(): void {
-    props.handleActivityMutation(activity);
+    if (activity.id.length) {
+      activityStore.updateActivity(activity)
+      .then(() => {
+        // This is how we navighate in component!
+        history.push(`/activities/${activity.id}`);
+      });
+    } else {
+        const newActivity = new Activity(activity);
+        newActivity.id = uuid();
+        activityStore.createActivity(newActivity)
+        .then(() => {
+          // This is how we navighate in component!
+          history.push(`/activities/${newActivity.id}`);
+        });
+    }
   }
 
   function handleInputChange(ev: ChangeEvent<any>): void {
@@ -27,6 +51,8 @@ export default function ActivityForm(props: Props) {
       })
     )
   }
+
+  if (activityStore.isLoading) return <LoadingCircle content='Loading content...'/>
 
   return (
     <Segment clearing>
@@ -73,15 +99,16 @@ export default function ActivityForm(props: Props) {
           positive 
           type='submit' 
           content='Submit'
-          loading={props.isSubmitting}
+          loading={activityStore.isSubmitting}
         ></Button>
         <Button 
-          floated='right' 
-          type='button' 
+          floated='right'
+          type='button'
           content='Cancel'
-          onClick={props.closeForm}
+          as={Link}
+          to='/activities'
         ></Button>
       </Form>
     </Segment>
   );
-}
+});
