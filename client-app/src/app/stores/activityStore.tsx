@@ -25,6 +25,18 @@ export default class ActivityStore {
       ));
   }
 
+  get groupedActivities() {
+    return Object.entries(
+      this.activitiesByDate
+      .reduce((activities, at) => {
+        const date = at.date;
+        activities[date] = activities[date] || [];
+        activities[date].push(at)
+        return activities;
+      }, {} as { [key: string]: Activity[] })
+    )
+  }
+
   loadActivities = () => {
     this.setIsLoading(true);
     agent.Activities.list()
