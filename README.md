@@ -39,7 +39,10 @@ Wow so cool: http://json2ts.com/
 
 - Also you can use generics on JS functions, never realised.
 
+## Clean the DB
+- `dotnet ef database drop -s API -p Persistence`
+
 Total Tutorials: 288
-Up to: 86 (30%)
+Up to: 100 (37.5%)
 
 23-02 - 16 to 48 (32)

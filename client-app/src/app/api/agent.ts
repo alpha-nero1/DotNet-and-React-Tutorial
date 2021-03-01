@@ -1,5 +1,9 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
+import { History } from '../..';
 import { Activity } from '../../types/activity';
+import { ServerError } from '../../types/server-error';
+import { store } from '../stores/store';
 
 // I am against the implementation of this file, I would use a class.
 
@@ -11,7 +15,38 @@ const sleep = (delay: number) => {
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
-axios.interceptors.response.use(res => sleep(1000).then(() => res));
+axios.interceptors.response.use(
+  res => sleep(1000).then(() => res), 
+  (err: AxiosError) => {
+    const { data, status, config } = err.response!;
+    switch (status) {
+      case 400:
+        if (typeof data === 'string') toast.error(data);
+        if (config.method === 'get' && data.errors.hasOwnProperty('id')) {
+          History.push('/not-found');
+        }
+        if (data.errors) {
+          const stateErrors = [];
+          for (const key in data.errors) {
+            if (data.errors[key]) stateErrors.push(data.errors[key])
+          }
+          throw stateErrors.flat();
+        }
+        break;
+      case 401:
+        toast.error('Unauthorised');
+        break;
+      case 404:
+        History.push('/not-found');
+        break;
+      case 500:
+        store.commonStore.setServerError(new ServerError(data));
+        History.push('/server-error');
+        break;
+    }
+    return Promise.reject(err);
+  }
+);
 
 const responseBody = <T> (res: AxiosResponse) => res.data;
 

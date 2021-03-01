@@ -6,6 +6,7 @@ namespace Domain
     {
         public Guid Id { get; set; }
 
+        // [Required] - to make the model field required (field annotation)
         public string Title { get; set; }
 
         public DateTime Date { get; set; }
