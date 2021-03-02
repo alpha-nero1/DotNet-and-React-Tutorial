@@ -43,6 +43,6 @@ Wow so cool: http://json2ts.com/
 - `dotnet ef database drop -s API -p Persistence`
 
 Total Tutorials: 288
-Up to: 100 (37.5%)
+Up to: 122 (42%)
 
 23-02 - 16 to 48 (32)

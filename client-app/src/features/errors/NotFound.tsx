@@ -1,4 +1,3 @@
-import { NOTFOUND } from 'dns';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Header, Icon, Segment } from 'semantic-ui-react';

@@ -1,7 +1,7 @@
 export class Activity {
   id: string = '';
   title: string = '';
-  date: string = '';
+  date?: Date | null = null;
   description: string = '';
   category: string = '';
   city: string = '';
@@ -11,7 +11,7 @@ export class Activity {
     if (opts) {
       Object.assign(this, opts);
       if (opts.date) {
-        this.date = opts.date.split('T')[0];
+        this.date = new Date(opts.date);
       }
     }
   }

@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { makeAutoObservable } from "mobx"
 import { Activity } from "../../types/activity";
 import agent from "../api/agent";
@@ -10,7 +11,7 @@ export default class ActivityStore {
 
   isEditing = false;
 
-  isLoading = true;
+  isLoading = false;
 
   isSubmitting = false;
 
@@ -21,7 +22,7 @@ export default class ActivityStore {
   get activitiesByDate() {
     return Array.from(this.activityRegister.values())
       .sort((a, b) => (
-        Date.parse(a.date) - Date.parse(b.date)
+        a.date!.getTime() - b.date!.getTime()
       ));
   }
 
@@ -29,7 +30,7 @@ export default class ActivityStore {
     return Object.entries(
       this.activitiesByDate
       .reduce((activities, at) => {
-        const date = at.date;
+        const date = format(at.date!, 'dd MMM yyyy');
         activities[date] = activities[date] || [];
         activities[date].push(at)
         return activities;

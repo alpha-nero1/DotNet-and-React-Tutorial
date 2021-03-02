@@ -48,7 +48,7 @@ axios.interceptors.response.use(
   }
 );
 
-const responseBody = <T> (res: AxiosResponse) => res.data;
+const responseBody = (res: AxiosResponse) => res.data;
 
 const requests = {
   get: <T> (url: string) => axios.get<T>(url).then(responseBody),
