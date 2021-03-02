@@ -7,7 +7,7 @@ TryCatchLearn resources for the reactivities project: https://github.com/TryCatc
 - `dotnet -h` to see available commands.
 - `dotnet watch run` run a project that is watched.
 - `dotnet tool install --global dotnet-ef --version 5.0.3` globally installed ef.
-- `dotnet ef migrations add Initial -p Persistence -s API`
+- `dotnet ef migrations add Initial -p Persistence -s API` - how you create migrations!
 
 ## React
 - `npx create-react-app client-app --use-npm --template typescript`
@@ -42,7 +42,10 @@ Wow so cool: http://json2ts.com/
 ## Clean the DB
 - `dotnet ef database drop -s API -p Persistence`
 
+## Refresh Imports
+- `dotnet restore`
+
 Total Tutorials: 288
-Up to: 122 (42%)
+Up to: 132 (46%)
 
 23-02 - 16 to 48 (32)
