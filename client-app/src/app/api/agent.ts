@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { History } from '../..';
 import { Activity } from '../../types/activity';
 import { ServerError } from '../../types/server-error';
+import { User, UserFormValues } from '../../types/user.model';
 import { store } from '../stores/store';
 
 // I am against the implementation of this file, I would use a class.
@@ -14,6 +15,15 @@ const sleep = (delay: number) => {
 }
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
+
+axios.interceptors.request.use(
+  config => {
+    const token = store.commonStore.token;
+    // Easily add token to auth header if it is present (user is authenticated!).
+    if (token && token.length) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  }
+)
 
 axios.interceptors.response.use(
   res => sleep(1000).then(() => res), 
@@ -50,6 +60,7 @@ axios.interceptors.response.use(
 
 const responseBody = (res: AxiosResponse) => res.data;
 
+// Base requests object.
 const requests = {
   get: <T> (url: string) => axios.get<T>(url).then(responseBody),
   post: <T> (url: string, body: any) => axios.post<T>(url, body).then(responseBody),
@@ -57,6 +68,14 @@ const requests = {
   del: <T> (url: string) => axios.delete<T>(url).then(responseBody),
 }
 
+// Account requests.
+const Account = {
+  current: () => requests.get<User>('/account').then(usr => new User(usr)),
+  login: (user: UserFormValues) => requests.post<User>('/account/login', user),
+  register: (user: UserFormValues) => requests.post<User>('/account/register', user)
+}
+
+// Activities requests.
 const Activities = {
   list: () => requests.get<Activity[]>('/activities') as Promise<Activity[]>,
   details: (id: string) => requests.get<Activity>(`/activities/${id}`) as Promise<Activity>,
@@ -66,7 +85,8 @@ const Activities = {
 }
 
 const agent = {
-  Activities
+  Activities,
+  Account
 }
 
 export default agent;

@@ -46,6 +46,6 @@ Wow so cool: http://json2ts.com/
 - `dotnet restore`
 
 Total Tutorials: 288
-Up to: 132 (46%)
+Up to: 149 (51.7%)
 
 23-02 - 16 to 48 (32)

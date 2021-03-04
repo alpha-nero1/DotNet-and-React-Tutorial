@@ -15,7 +15,7 @@ export default observer(function ActivityDashboard() {
   }, [activityRegister.size, loadActivities]);
 
   if (activityStore.isLoading) {
-    return <LoadingCircle />
+    return <LoadingCircle content='Loading activities...' />
   }
 
   return (
