@@ -8,6 +8,9 @@ TryCatchLearn resources for the reactivities project: https://github.com/TryCatc
 - `dotnet watch run` run a project that is watched.
 - `dotnet tool install --global dotnet-ef --version 5.0.3` globally installed ef.
 - `dotnet ef migrations add Initial -p Persistence -s API` - how you create migrations!
+- `dotnet new classlib -n Infrastructure` - add new project called Infrastructure.
+- `dotnet sln add Infrastructure` - then add it to the solution.
+- `dotnet add reference ../Application` - to add a ref from application to Infrastructure. this is more or less a dependency.
 
 ## React
 - `npx create-react-app client-app --use-npm --template typescript`
@@ -45,7 +48,10 @@ Wow so cool: http://json2ts.com/
 ## Refresh Imports
 - `dotnet restore`
 
+## Remove migrations with ef (before commited).
+- `dotnet ef migrations remove -p Persistence -s API`
+
 Total Tutorials: 288
-Up to: 149 (51.7%)
+Up to: 164 (57%)
 
 23-02 - 16 to 48 (32)
