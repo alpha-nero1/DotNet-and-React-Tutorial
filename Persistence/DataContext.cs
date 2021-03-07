@@ -15,6 +15,7 @@ namespace Persistence
     public DbSet<Activity> Activities { get; set; }
 
     public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
+    public DbSet<Photo> Photos { get; set; }
 
     // Override on model create context.
     // Overrides how certain migrations may be made.

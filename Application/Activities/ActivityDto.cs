@@ -26,6 +26,6 @@ namespace Application.Activities
         public bool IsCancelled { get; set; }
 
         // Will set a default array and avoids null reference, cannot add anything to null.
-        public ICollection<Profile> Attendees { get; set; }
+        public ICollection<AttendeeDto> Attendees { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -34,7 +35,9 @@ namespace API.Controllers
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        var usr = await _userManager.FindByEmailAsync(loginDto.Email);
+        var usr = await _userManager.Users
+            .Include(x => x.Photos)
+            .FirstOrDefaultAsync(x => x.Email == loginDto.Email);
 
         if (usr == null) return Unauthorized();
         // Check password checks out.
@@ -81,7 +84,9 @@ namespace API.Controllers
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
         // User is preloaded on to controllers where authentication was required.
-        var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+        var user = await _userManager.Users
+            .Include(x => x.Photos)
+            .FirstOrDefaultAsync(x => x.Email == ClaimTypes.Email);
         return CreateUserDto(user);
     }
 
@@ -90,7 +95,7 @@ namespace API.Controllers
         return new UserDto
         {
             DisplayName = user.DisplayName,
-            Image = null,
+            Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
             Token = _tokenService.CreateToken(user),
             Username = user.UserName
         };

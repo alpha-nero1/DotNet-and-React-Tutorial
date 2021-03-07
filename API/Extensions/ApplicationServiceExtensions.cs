@@ -1,6 +1,7 @@
 using Application.Activities;
 using Application.Core;
 using Application.Interfaces;
+using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,9 @@ namespace API.Extensions
             // The two types here mean, first is just the interface, and second is
             // where the implementation actually lives.
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            // Configure vars into the class.
+            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
             return services;
         }
     }
