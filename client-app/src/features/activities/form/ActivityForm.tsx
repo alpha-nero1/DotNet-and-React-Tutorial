@@ -4,7 +4,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { Segment, Button, Header } from 'semantic-ui-react';
 import LoadingCircle from '../../../app/layout/LoadingCircle';
 import { useStore } from '../../../app/stores/store';
-import { Activity } from '../../../types/activity';
+import { Activity, ActivityFormValues } from '../../../types/activity';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import TextInput from '../../../app/common/form/TextInput';
@@ -18,7 +18,7 @@ export default observer(function ActivityForm() {
   const history = useHistory();
   const { activityStore } = useStore();
   const { id } = useParams<{id: string}>();
-  const [at, setActivity] = useState<Activity>(new Activity());
+  const [at, setActivity] = useState<ActivityFormValues>(new ActivityFormValues());
 
   const validationSchema = yup.object({
     title: yup.string().required('The activity title is required.'),
@@ -34,14 +34,14 @@ export default observer(function ActivityForm() {
       activityStore.loadActivity(id)
       .then((at) => {
         if (at) {
-          setActivity(at!);
+          setActivity(new ActivityFormValues(at));
         }
       });
     }
   }, [id, activityStore])
 
-  function handleFormSubmit(activity: Activity): void {
-    if (activity.id.length) {
+  function handleFormSubmit(activity: ActivityFormValues): void {
+    if (activity.id) {
       activityStore.updateActivity(activity)
       .then(() => {
         // This is how we navighate in component!
@@ -108,7 +108,7 @@ export default observer(function ActivityForm() {
               type='submit' 
               content='Submit'
               disabled={isSubmitting || !dirty || !isValid}
-              loading={activityStore.isSubmitting}
+              loading={isSubmitting}
             ></Button>
             <Button 
               floated='right'

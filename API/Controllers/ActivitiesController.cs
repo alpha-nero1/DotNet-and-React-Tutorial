@@ -18,7 +18,7 @@ namespace API.Controllers
     }
 
     [HttpGet("{id}")] // activities/id
-    public async Task<ActionResult<IActionResult>> GetActivity(Guid id)
+    public async Task<IActionResult> GetActivity(Guid id)
     {
       return HandleResult<ActivityDto>(await Mediator.Send(new Details.Query{Id = id}));
     }

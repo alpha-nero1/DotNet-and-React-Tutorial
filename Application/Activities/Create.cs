@@ -40,7 +40,9 @@ namespace Application.Activities
         var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
         // Make the link!
         var attendee = new ActivityAttendee {
+          AppUserId = user.Id,
           AppUser = user,
+          ActivityId = request.Activity.Id,
           Activity = request.Activity,
           IsHost = true
         };

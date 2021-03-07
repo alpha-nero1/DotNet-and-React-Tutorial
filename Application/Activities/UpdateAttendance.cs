@@ -60,6 +60,7 @@ namespace Application.Activities
         {
             attendance = new Domain.ActivityAttendee
             {
+                AppUserId = user.Id,
                 AppUser = user,
                 Activity = activity,
                 IsHost = false

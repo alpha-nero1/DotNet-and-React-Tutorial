@@ -1,18 +1,12 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { History } from '../..';
-import { Activity } from '../../types/activity';
+import { Activity, ActivityFormValues } from '../../types/activity';
 import { ServerError } from '../../types/server-error';
 import { User, UserFormValues } from '../../types/user.model';
 import { store } from '../stores/store';
 
 // I am against the implementation of this file, I would use a class.
-
-const sleep = (delay: number) => {
-  return new Promise(resolve => {
-    setTimeout(resolve, delay);
-  })
-}
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -26,7 +20,7 @@ axios.interceptors.request.use(
 )
 
 axios.interceptors.response.use(
-  res => sleep(1000).then(() => res), 
+  res => res, 
   (err: AxiosError) => {
     const { data, status, config } = err.response!;
     switch (status) {
@@ -79,9 +73,10 @@ const Account = {
 const Activities = {
   list: () => requests.get<Activity[]>('/activities') as Promise<Activity[]>,
   details: (id: string) => requests.get<Activity>(`/activities/${id}`) as Promise<Activity>,
-  create: (activity: Activity) => requests.post('/activities', activity),
-  update: (activity: Activity) => requests.put(`/activities/${activity.id}`, activity),
+  create: (activity: ActivityFormValues) => requests.post('/activities', activity),
+  update: (activity: ActivityFormValues) => requests.put(`/activities/${activity.id}`, activity),
   delete: (id: string) => requests.del<void>(`/activities/${id}`),
+  attend: (id: string) => requests.post<void>(`/activities/${id}/attend`, {})
 }
 
 const agent = {
