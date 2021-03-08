@@ -4,6 +4,8 @@ import { User, UserFormValues } from "../../types/user.model";
 import agent from "../api/agent";
 import { store } from "./store";
 
+const TOKEN_STRING = 'jwt_token';
+
 export default class UserStore {
   user: User | null = null;
 
@@ -35,7 +37,7 @@ export default class UserStore {
   // Log the user out of the app.
   logout = () => {
     store.commonStore.setToken(null);
-    window.localStorage.removeItem('jwt');
+    window.localStorage.removeItem(TOKEN_STRING);
     this.user = null;
     History.push('/');
   }
@@ -61,6 +63,12 @@ export default class UserStore {
       store.modalStore.closeModal();
     } catch (e) {
       throw e;
+    }
+  }
+
+  setProfileImage = (image: string) => {
+    if (this.user) {
+      this.user.image = image;
     }
   }
 }

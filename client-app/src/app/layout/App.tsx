@@ -15,6 +15,7 @@ import LoginForm from '../../features/users/LoginForm';
 import { useStore } from '../stores/store';
 import LoadingCircle from './LoadingCircle';
 import ModalContainer from '../common/modals/ModalContainer';
+import ProfilePage from '../../features/profiles/ProfilePage';
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
                 <Route exact path='/activities' component={ActivityDashboard}/>
                 <Route exact path='/activities/:id' component={ActivityDetails}/>
                 <Route exact key={location.key} path={['/activities/create/new', '/activities/manage/:id']} component={ActivityForm}/>
+                <Route exact path='/profiles/:username' component={ProfilePage}/>
                 <Route exact path='/errors' component={TestErrors}/>
                 <Route exact path='/server-error' component={ServerError}/>
                 <Route exact path='/login' component={LoginForm}/>

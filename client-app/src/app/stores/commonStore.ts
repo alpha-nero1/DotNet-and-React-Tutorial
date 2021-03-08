@@ -1,10 +1,12 @@
 import { makeAutoObservable, reaction } from "mobx";
 import { ServerError } from "../../types/server-error";
 
+const TOKEN_STRING = 'jwt_token';
+
 export default class CommonStore {
   error: ServerError | null = null;
   // Attempt to get the token from local storage on site boot.
-  token: string | null = window.localStorage.getItem("jwt");
+  token: string | null = window.localStorage.getItem(TOKEN_STRING);
   appIsLoaded = false;
 
   constructor() {
@@ -14,8 +16,11 @@ export default class CommonStore {
     reaction(
       () => this.token,
       token => {
-        if (token) window.localStorage.setItem("jwt", token);
-        else window.localStorage.removeItem("jwt");
+        if (token) {
+          window.localStorage.setItem(TOKEN_STRING, token);
+        } else {
+          window.localStorage.removeItem(TOKEN_STRING);
+        }
       }
     )
   }

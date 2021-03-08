@@ -52,6 +52,7 @@ Wow so cool: http://json2ts.com/
 - `dotnet ef migrations remove -p Persistence -s API`
 
 Total Tutorials: 288
-Up to: 164 (57%)
+Up to: 201 (69.7%)
 
 23-02 - 16 to 48 (32)
+  
