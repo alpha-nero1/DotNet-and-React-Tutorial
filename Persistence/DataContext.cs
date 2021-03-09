@@ -16,6 +16,7 @@ namespace Persistence
 
     public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
     public DbSet<Photo> Photos { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 
     // Override on model create context.
     // Overrides how certain migrations may be made.
@@ -36,6 +37,12 @@ namespace Persistence
         .HasOne(x => x.Activity)
         .WithMany(x => x.Attendees)
         .HasForeignKey(x => x.ActivityId);
+
+      // Deeltes comments if activity was deleted.
+      builder.Entity<Comment>()
+        .HasOne(a => a.Activity)
+        .WithMany(c => c.Comments)
+        .OnDelete(DeleteBehavior.Cascade);
 
     }
   }

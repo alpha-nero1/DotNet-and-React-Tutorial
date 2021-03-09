@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace API.Extensions
 {
@@ -38,6 +39,22 @@ namespace API.Extensions
                     IssuerSigningKey = key,
                     ValidateIssuer = false,
                     ValidateAudience = false
+                };
+                // Hook into events
+                opts.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        // Take the access token from the request context amnd store it in
+                        // our http context. (Important for SignalR)
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
             // This AddAuthorization will allow us to add attributes to our endpoints to

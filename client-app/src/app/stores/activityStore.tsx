@@ -195,4 +195,8 @@ export default class ActivityStore {
       this.isSubmitting = false;
     }
   }
+
+  clearSelectedActivity = () => {
+    this.selectedActivity = undefined;
+  }
 }

@@ -86,8 +86,11 @@ namespace API.Controllers
         // User is preloaded on to controllers where authentication was required.
         var user = await _userManager.Users
             .Include(x => x.Photos)
-            .FirstOrDefaultAsync(x => x.Email == ClaimTypes.Email);
-        return CreateUserDto(user);
+            .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
+        if (user != null) {
+            return CreateUserDto(user);
+        }
+        return new UserDto();
     }
 
     private UserDto CreateUserDto(AppUser user)
