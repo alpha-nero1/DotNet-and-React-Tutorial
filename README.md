@@ -28,6 +28,10 @@ https://github.com/axios/axios
 
 - Project uses "Clean Architecture Pattern"
 
+Inner -> outer
+Domain -> Application -> Api
+
+
 ## CQRS + Mediator
 Command and Query Responsibility Segregation
 https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs
@@ -51,8 +55,12 @@ Wow so cool: http://json2ts.com/
 ## Remove migrations with ef (before commited).
 - `dotnet ef migrations remove -p Persistence -s API`
 
+## Vertabelo
+- https://vertabelo.com - allows us to create DB models from SQL cripts.
+`dotnet ef migrations script -o test.sql -p Persistence -s API` to generate such a script.
+
 Total Tutorials: 288
-Up to: 217 (75.3%)
+Up to: 236/288 (82%)
 
 23-02 - 16 to 48 (32)
   

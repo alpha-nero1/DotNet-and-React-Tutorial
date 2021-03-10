@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -12,17 +11,17 @@ namespace API.Controllers
   {
 
     [HttpGet]
-    public async Task<IActionResult> GetActivities()
+    public async Task<IActionResult> GetActivities([FromQuery]ActivityParams param)
     {
-      return HandleResult<List<ActivityDto>>(await Mediator.Send(new ActivityList.Query()));
+      return HandlePagedResult<ActivityDto>(await Mediator.Send(new ActivityList.Query { Params = param }));
     }
 
     [HttpGet("{id}")] // activities/id
     public async Task<IActionResult> GetActivity(Guid id)
     {
-      return HandleResult<ActivityDto>(await Mediator.Send(new Details.Query{Id = id}));
+      return HandleResult<ActivityDto>(await Mediator.Send(new Details.Query{ Id = id }));
     }
-
+ 
     // Param name here will look directly in the request body!!!
     [HttpPost]
     public async Task<IActionResult> CreateActivity(Activity activity)

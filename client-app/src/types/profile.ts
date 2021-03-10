@@ -6,6 +6,9 @@ export class Profile {
   bio: string | null = null;
   image?: string
   photos: Photo[] = [];
+  followersCount?: number;
+  followingCount?: number;
+  following?: boolean;
 
   constructor(user: User) {
     this.username = user.username as string;

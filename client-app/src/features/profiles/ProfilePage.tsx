@@ -14,7 +14,10 @@ export default observer(function ProfilePage() {
 
   useEffect(() => {
     loadProfile(username)
-  }, [loadProfile, username])
+    return () => {
+      profileStore.setActiveTab(0);
+    }
+  }, [profileStore, loadProfile, username])
 
   if (isLoadingProfile) return <LoadingCircle content='Loading profile...'/>
 

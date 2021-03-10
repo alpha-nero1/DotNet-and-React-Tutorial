@@ -17,8 +17,8 @@ export default function ActivityListItem({ activity }: Props) {
         {activity.isCancelled && (
           <Label attached='top' content='Cancelled' style={{textAlign: 'center'}} color='red'/>
         )}
-        <Item.Group>
-          <Item>
+        <Item.Group >
+          <Item> 
             <Item.Image size='tiny' style={{ marginBottom: 4 }} circular src={activity?.host?.image || '/assets/Images/user.png'} />
             <Item.Content>
               <Item.Header
