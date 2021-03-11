@@ -60,7 +60,7 @@ Wow so cool: http://json2ts.com/
 `dotnet ef migrations script -o test.sql -p Persistence -s API` to generate such a script.
 
 Total Tutorials: 288
-Up to: 236/288 (82%)
+Up to: 248/288 (86.1%)
 
 23-02 - 16 to 48 (32)
   
