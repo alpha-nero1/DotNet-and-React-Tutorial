@@ -1,5 +1,6 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { Photo, Profile } from "../../types/profile";
+import { UserActivity } from '../../types/user-activity';
 import agent from "../api/agent";
 import { store } from "./store";
 
@@ -11,6 +12,8 @@ export default class ProfileStore {
   isLoadingFollowings = false;
   followings: Profile[] = [];
   activeTab = 0;
+  userActivities: UserActivity[] = [];
+  isLoadingActivities = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -150,6 +153,20 @@ export default class ProfileStore {
       })
     } catch (err) {
       runInAction(() => this.isLoadingFollowings = false);
+      throw err;
+    }
+  }
+
+  loadUserActivities = async (username: string, predicate?: string) => {
+    this.isLoadingActivities = true;
+    try {
+      const acts = await agent.Profiles.listActivities(username, predicate);
+      runInAction(() => {
+        this.userActivities = acts;
+        this.isLoadingActivities = false;
+      })
+    } catch (err) {
+      runInAction(() => this.isLoadingActivities = false);
       throw err;
     }
   }

@@ -5,6 +5,7 @@ import { Activity, ActivityFormValues } from '../../types/activity';
 import { PaginatedResult } from '../../types/pagination';
 import { Photo, Profile } from '../../types/profile';
 import { ServerError } from '../../types/server-error';
+import { UserActivity } from '../../types/user-activity';
 import { User, UserFormValues } from '../../types/user.model';
 import { store } from '../stores/store';
 
@@ -93,7 +94,10 @@ const Profiles = {
   setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
   deletePhoto: (id: string) => requests.del(`/photos/${id}`),
   updateFollowing: (username: string) => requests.post(`/follow/${username}`, {}),
-  listFollowings: (username: string, predicate: string) => requests.get<Profile[]>(`/following/${username}?predicate=${predicate}`) 
+  listFollowings: (username: string, predicate: string) => requests.get<Profile[]>(`/following/${username}?predicate=${predicate}`),
+  listActivities: (username: string, predicate: string = '') => (
+    requests.get<UserActivity[]>(`/profiles/${username}/activities?predicate=${predicate}`)
+  )
 }
 
 // Activities requests.
