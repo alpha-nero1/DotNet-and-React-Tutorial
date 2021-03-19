@@ -68,3 +68,6 @@ Up to: 259/288 (89.9%)
 `docker run --name dev -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres:latest`
 
 - dotnet tool update -g dotnet-ef
+
+# Heroku
+to push to heroku: `git push heroku main`
