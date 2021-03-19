@@ -60,7 +60,11 @@ Wow so cool: http://json2ts.com/
 `dotnet ef migrations script -o test.sql -p Persistence -s API` to generate such a script.
 
 Total Tutorials: 288
-Up to: 250/288 (86.8%)
+Up to: 259/288 (89.9%)
 
 23-02 - 16 to 48 (32)
-  
+
+# PSQL
+`docker run --name dev -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres:latest`
+
+- dotnet tool update -g dotnet-ef

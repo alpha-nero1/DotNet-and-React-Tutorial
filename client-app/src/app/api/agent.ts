@@ -11,7 +11,7 @@ import { store } from '../stores/store';
 
 // I am against the implementation of this file, I would use a class.
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use(
   config => {

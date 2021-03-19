@@ -54,8 +54,11 @@ namespace API
       app.UseHttpsRedirection();
 
       app.UseRouting();
-
-      // Orderinf important!
+      // Look for anything inside wwwroot folder.
+      app.UseDefaultFiles();
+      // Will serve those files from wwwroot folder.
+      app.UseStaticFiles();
+      // Order is important!
       app.UseCors("CorsPolicy");
 
       app.UseAuthentication();
@@ -67,6 +70,8 @@ namespace API
         endpoints.MapControllers();
         // Add our signalR endpoint.
         endpoints.MapHub<ChatHub>("/chat");
+        // Umatched will go to index controller.
+        endpoints.MapFallbackToController("Index", "Fallback");
       });
     }
   }

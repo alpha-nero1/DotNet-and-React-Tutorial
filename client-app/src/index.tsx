@@ -10,12 +10,14 @@ import 'react-calendar/dist/Calendar.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { createBrowserHistory } from 'history';
+import ScrollToTop from './app/layout/ScrollToTop';
 
 export const History = createBrowserHistory();
 
 ReactDOM.render(
   <StoreContext.Provider value={store}>
     <Router history={History}>
+      <ScrollToTop />
       <App />
     </Router>
   </StoreContext.Provider>,

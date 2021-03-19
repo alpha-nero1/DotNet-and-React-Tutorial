@@ -16,6 +16,7 @@ import { useStore } from '../stores/store';
 import LoadingCircle from './LoadingCircle';
 import ModalContainer from '../common/modals/ModalContainer';
 import ProfilePage from '../../features/profiles/ProfilePage';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
 
@@ -44,13 +45,12 @@ function App() {
             <NavBar />
             <Container style={{ marginTop: '7em' }}>
               <Switch>
-                <Route exact path='/activities' component={ActivityDashboard}/>
-                <Route exact path='/activities/:id' component={ActivityDetails}/>
-                <Route exact key={location.key} path={['/activities/create/new', '/activities/manage/:id']} component={ActivityForm}/>
-                <Route exact path='/profiles/:username' component={ProfilePage}/>
-                <Route exact path='/errors' component={TestErrors}/>
+                <PrivateRoute exact path='/activities' component={ActivityDashboard}/>
+                <PrivateRoute exact path='/activities/:id' component={ActivityDetails}/>
+                <PrivateRoute exact key={location.key} path={['/activities/create/new', '/activities/manage/:id']} component={ActivityForm}/>
+                <PrivateRoute exact path='/profiles/:username' component={ProfilePage}/>
+                <PrivateRoute exact path='/errors' component={TestErrors}/>
                 <Route exact path='/server-error' component={ServerError}/>
-                <Route exact path='/login' component={LoginForm}/>
                 <Route exact component={NotFound}/>
               </Switch>
             </Container>
