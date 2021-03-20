@@ -57,7 +57,7 @@ namespace API
         .FormActions(s => s.Self())
         .FrameAncestors(s => s.Self())
         .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com"))
-        .ScriptSources(s => s.Self())
+        .ScriptSources(s => s.Self().CustomSources("sha256-+p7ZVzQSLI8QwAHIfxfJA5rHiaa5mAMtOB1lA4hDpAo="))
       );
       if (env.IsDevelopment())
       {
