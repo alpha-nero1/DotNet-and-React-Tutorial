@@ -60,12 +60,16 @@ Wow so cool: http://json2ts.com/
 `dotnet ef migrations script -o test.sql -p Persistence -s API` to generate such a script.
 
 Total Tutorials: 288
-Up to: 259/288 (89.9%)
+Up to: 264/288 (91.6%)
 
 23-02 - 16 to 48 (32)
 
 # PSQL
-`docker run --name dev -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres:latest`
+```
+docker run --name dev -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=reactivities -e POSTGRES_USERNAME=admin -p 5432:5432 -d postgres:latest
+```
+
+- I got really really stuck on this. With docker the host ip may not necessarily be localhost, in the case of windows the ip was different. I did a `docker inspect <container name>` to find what the ip adress of the container was.
 
 - dotnet tool update -g dotnet-ef
 

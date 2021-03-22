@@ -100,7 +100,7 @@ export default class ActivityStore {
     return agent.Activities.list(this.axiosParams)
     .then(({ data, pagination }) => {
       if (pagination) this.setPagination(pagination);
-      if (data) this.setActivities(data.map(at => new Activity(at)));
+      if (data && data.length) this.setActivities(data.map(at => new Activity(at)));
       this.setIsLoading(false);
     })
     .catch((err) => {
