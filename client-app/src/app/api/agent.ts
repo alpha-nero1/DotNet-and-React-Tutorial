@@ -32,31 +32,35 @@ axios.interceptors.response.use(
     return res;
   }, 
   (err: AxiosError) => {
-    const { data, status, config } = err.response!;
-    switch (status) {
-      case 400:
-        if (typeof data === 'string') toast.error(data);
-        if (config.method === 'get' && data.errors.hasOwnProperty('id')) {
-          History.push('/not-found');
-        }
-        if (data.errors) {
-          const stateErrors = [];
-          for (const key in data.errors) {
-            if (data.errors[key]) stateErrors.push(data.errors[key])
+    if (err && err.response) {
+      const { data, status, config } = err.response;
+      switch (status) {
+        case 400:
+          if (typeof data === 'string') toast.error(data);
+          if (config.method === 'get' && data.errors.hasOwnProperty('id')) {
+            History.push('/not-found');
           }
-          throw stateErrors.flat();
-        }
-        break;
-      case 401:
-        toast.error('Unauthorised');
-        break;
-      case 404:
-        History.push('/not-found');
-        break;
-      case 500:
-        store.commonStore.setServerError(new ServerError(data));
-        History.push('/server-error');
-        break;
+          if (data.errors) {
+            const stateErrors = [];
+            for (const key in data.errors) {
+              if (data.errors[key]) stateErrors.push(data.errors[key])
+            }
+            throw stateErrors.flat();
+          }
+          break;
+        case 401:
+          toast.error('Unauthorised');
+          break;
+        case 404:
+          History.push('/not-found');
+          break;
+        case 500:
+          store.commonStore.setServerError(new ServerError(data));
+          History.push('/server-error');
+          break;
+      }
+    } else {
+      toast.error('Something went wromg, please try again.');
     }
     return Promise.reject(err);
   }
@@ -94,7 +98,7 @@ const Profiles = {
   setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
   deletePhoto: (id: string) => requests.del(`/photos/${id}`),
   updateFollowing: (username: string) => requests.post(`/follow/${username}`, {}),
-  listFollowings: (username: string, predicate: string) => requests.get<Profile[]>(`/following/${username}?predicate=${predicate}`),
+  listFollowings: (username: string, predicate: string) => requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
   listActivities: (username: string, predicate: string = '') => (
     requests.get<UserActivity[]>(`/profiles/${username}/activities?predicate=${predicate}`)
   )

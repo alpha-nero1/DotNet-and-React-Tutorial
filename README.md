@@ -75,3 +75,30 @@ docker run --name dev -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=secret -e POST
 
 # Heroku
 to push to heroku: `git push heroku main`
+
+# Starting PSQL in docker container.
+
+```
+docker run --name dev -p 54321:5432 -e POSTGRES_PASSWORD=secret -d postgres:latest
+```
+
+AND
+
+```
+docker exec -it dev psql -U postgres -c "CREATE DATABASE reactivities;"
+```
+
+## "You need to enable JavaScript to run this app."
+If we run the prod version from kestrel server on dotnet we will see the message "You need to enable JavaScript to run this app." and will not be able to see network responses.
+
+Run the actual project from client app to debug.
+
+When we want to deploy changes to our dotnet server we would exec
+`npm run build` which will automatically use our `postbuild` script to move to the dotnet wwwroot/
+
+OR
+
+What you thought was a post request is actually a get and it has returned a document containing JS.
+
+## Dev mode
+- In dev mode when you get the full error screen yu can esc out of it by pressing `esc`.

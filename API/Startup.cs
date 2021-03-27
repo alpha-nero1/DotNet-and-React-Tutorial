@@ -44,21 +44,21 @@ namespace API
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      // app.UseMiddleware<ExceptionMiddleware>();
-      // app.UseXContentTypeOptions();
-      // app.UseReferrerPolicy(opt => opt.NoReferrer());
-      // app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
-      // app.UseXfo(opt => opt.Deny());
-      // // Use csp report only to debug.
-      // app.UseCspReportOnly(opt => opt
-      //   .BlockAllMixedContent()
-      //   .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com"))
-      //   .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
-      //   .FormActions(s => s.Self())
-      //   .FrameAncestors(s => s.Self())
-      //   .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com"))
-      //   .ScriptSources(s => s.Self().CustomSources("sha256-+p7ZVzQSLI8QwAHIfxfJA5rHiaa5mAMtOB1lA4hDpAo="))
-      // );
+      app.UseMiddleware<ExceptionMiddleware>();
+      app.UseXContentTypeOptions();
+      app.UseReferrerPolicy(opt => opt.NoReferrer());
+      app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+      app.UseXfo(opt => opt.Deny());
+      // Use csp report only to debug.
+      app.UseCspReportOnly(opt => opt
+        .BlockAllMixedContent()
+        .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com"))
+        .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
+        .FormActions(s => s.Self())
+        .FrameAncestors(s => s.Self())
+        .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com"))
+        .ScriptSources(s => s.Self().CustomSources("sha256-+p7ZVzQSLI8QwAHIfxfJA5rHiaa5mAMtOB1lA4hDpAo="))
+      );
       if (env.IsDevelopment())
       {
         app.UseSwagger();
@@ -75,7 +75,7 @@ namespace API
         );
       }
 
-      app.UseHttpsRedirection();
+      // app.UseHttpsRedirection();
 
       app.UseRouting();
       // Look for anything inside wwwroot folder.

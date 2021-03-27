@@ -147,6 +147,7 @@ export default class ProfileStore {
     this.isLoadingFollowings = true;
     try {
       const followings = await agent.Profiles.listFollowings(this.profile!.username, predicate);
+      console.log('aa followings', followings)
       runInAction(() => {
         this.followings = followings;
         this.isLoadingFollowings = false;
